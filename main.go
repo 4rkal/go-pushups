@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"time"
+	"github.com/martinlindhe/notify"
 )
 
 func main() {
@@ -34,6 +35,8 @@ func main() {
 		}
 		amount_done += reps
 		fmt.Printf("Round %d: Do %d pushups\n", round, reps)
+		message := fmt.Sprintf("Do %v pushups",reps)
+		notify.Alert("go-pushups", "Pushup time!", message, "logo.png")
 
 		fmt.Print("Did you do them? (y/q)")
 		fmt.Scan(&confirm)
