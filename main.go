@@ -56,7 +56,6 @@ func main() {
 	fmt.Scan(&increase)
 
 	for round := 1; ; round++ {
-
 		reps := do(reps, rest, increase)
 		fmt.Printf("Round %d: Do %d pushups\n", round, reps)
 		alert(reps)
