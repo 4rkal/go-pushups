@@ -21,7 +21,7 @@ func do(reps, rest, increase int) int {
 
 func alert(reps int) {
 	message := fmt.Sprintf("Do %v pushups", reps)
-	notify.Alert("go-pushups", "Pushup time!", message, "logo.png")
+	notify.Alert("go-pushups", "Pushup time!", message, "imgs/logo.png")
 }
 
 func confirm() {
