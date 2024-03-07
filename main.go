@@ -24,11 +24,22 @@ func alert(reps int) {
 	notify.Alert("go-pushups", "Pushup time!", message, "logo.png")
 }
 
+func confirm() {
+	confirm := ""
+	for confirm != "y" {
+		if confirm == "q" {
+			fmt.Printf("You did %v pushups", amount_done)
+			os.Exit(0)
+		}
+		fmt.Print("Did you do them? (y/q)")
+		fmt.Scan(&confirm)
+	}
+}
+
 func main() {
 	var reps int
 	var rest int
 	var increase int
-	var confirm string
 
 	fmt.Print("Enter amount of reps: ")
 	fmt.Scan(&reps)
@@ -45,14 +56,10 @@ func main() {
 	fmt.Scan(&increase)
 
 	for round := 1; ; round++ {
+
 		reps := do(reps, rest, increase)
 		fmt.Printf("Round %d: Do %d pushups\n", round, reps)
 		alert(reps)
-		fmt.Print("Did you do them? (y/q)")
-		fmt.Scan(&confirm)
-		if confirm == "q" {
-			fmt.Printf("You did %v pushups", amount_done)
-			break
-		}
+		confirm()
 	}
 }
