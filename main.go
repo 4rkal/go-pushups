@@ -10,6 +10,12 @@ import (
 
 var amount_done int = 0
 
+type Routine struct {
+	reps     int
+	rest     int
+	increase int
+}
+
 func do(reps, rest, increase int) int {
 	time.Sleep(time.Duration(rest) * time.Second)
 	if increase != 0 {
@@ -28,7 +34,7 @@ func confirm() {
 	confirm := ""
 	for confirm != "y" {
 		if confirm == "q" {
-			fmt.Printf("You did %v pushups", amount_done)
+			fmt.Printf("You did %v pushups\n", amount_done)
 			os.Exit(0)
 		}
 		fmt.Print("Did you do them? (y/q)")
@@ -37,26 +43,24 @@ func confirm() {
 }
 
 func main() {
-	var reps int
-	var rest int
-	var increase int
+	var routine Routine
 
 	fmt.Print("Enter amount of reps: ")
-	fmt.Scan(&reps)
+	fmt.Scan(&routine.reps)
 
 	fmt.Print("Enter amount of rest (sec): ")
-	fmt.Scan(&rest)
+	fmt.Scan(&routine.rest)
 
-	if reps <= 0 || rest <= 0 {
+	if routine.reps <= 0 || routine.rest <= 0 {
 		fmt.Println("Not positive input")
 		os.Exit(1)
 	}
 
 	fmt.Print("Enter percent increase per round: ")
-	fmt.Scan(&increase)
+	fmt.Scan(&routine.increase)
 
 	for round := 1; ; round++ {
-		reps := do(reps, rest, increase)
+		reps := do(routine.reps, routine.rest, routine.increase)
 		fmt.Printf("Round %d: Do %d pushups\n", round, reps)
 		alert(reps)
 		confirm()
