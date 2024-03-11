@@ -48,13 +48,13 @@ func confirm() {
 func main() {
 	var routine Routine
 	var tmp string
-
+	var confirmation bool
 	accessible, _ := strconv.ParseBool(os.Getenv("ACCESSIBLE"))
 
 	form := huh.NewForm(
 		huh.NewGroup(huh.NewNote().
 			Title("go-pushups").
-			Description("Welcome to _go-pushups_")),
+			Description("Welcome to _go-pushups_, your personal pushup companion and counter!")),
 		huh.NewGroup(
 			huh.NewInput().
 				Value(&tmp).
@@ -93,12 +93,27 @@ func main() {
 					}
 					routine.increase = increase
 					return nil
-				}).Description("Percent increase per round"),
-		),
+				}).Description("Percent increase per round")),
 	).WithAccessible(accessible)
 
 	err := form.Run()
 	if err != nil {
+		fmt.Println("Uh oh:", err)
+		os.Exit(1)
+	}
+
+	confirmation_form := huh.NewForm(
+		huh.NewGroup(
+			huh.NewConfirm().
+				Title(fmt.Sprintf("You will be doing %d push ups, with %d seconds rest and a %d increase per round", routine.reps, routine.rest, routine.increase)).
+				Value(&confirmation).
+				Affirmative("Yes!").
+				Negative("No."),
+		),
+	)
+
+	err2 := confirmation_form.Run()
+	if err2 != nil {
 		fmt.Println("Uh oh:", err)
 		os.Exit(1)
 	}
@@ -108,6 +123,10 @@ func main() {
 		os.Exit(1)
 	}
 
+	if confirmation == false {
+		fmt.Println("Did not confirm")
+		os.Exit(0)
+	}
 	for round := 1; ; round++ {
 		reps := do(routine.reps, routine.rest, routine.increase)
 		fmt.Printf("Round %d: Do %d pushups\n", round, reps)
