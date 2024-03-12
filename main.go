@@ -58,15 +58,15 @@ func main() {
 		fmt.Println("oh oh")
 		os.Exit(1)
 	}
-	if routine.reps <= 0 || routine.rest <= 0 {
+	if routine.Reps <= 0 || routine.Rest <= 0 {
 		fmt.Println("Not positive input")
 		os.Exit(1)
 	}
 
-	if confirmation == false {
-		fmt.Println("Did not confirm")
-		os.Exit(0)
+	if confirmation == true {
+		save(routine)
 	}
+
 	m := model{
 		progress: progress.New(progress.WithDefaultGradient()),
 	}
@@ -76,7 +76,7 @@ func main() {
 			fmt.Println("Oh no!", err)
 			os.Exit(1)
 		}
-		reps := do(routine.reps, routine.rest, routine.increase)
+		reps := do(routine.Reps, routine.Rest, routine.Increase)
 		fmt.Printf("Round %d: Do %d pushups\n", round, reps)
 		alert(reps)
 		quit, err := form3()

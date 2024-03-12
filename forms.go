@@ -10,9 +10,9 @@ import (
 )
 
 type Routine struct {
-	reps     int
-	rest     int
-	increase int
+	Reps     int `json:"reps"`
+	Rest     int `json:"rest"`
+	Increase int `json:"increase"`
 }
 
 var routine Routine
@@ -33,7 +33,7 @@ func form1(tmp string) (Routine, error) {
 					if err != nil {
 						return errors.New("probably not int input")
 					}
-					routine.reps = reps
+					routine.Reps = reps
 					return nil
 				}).
 				Description("To do in each round/cycle"),
@@ -47,7 +47,7 @@ func form1(tmp string) (Routine, error) {
 					if err != nil {
 						return errors.New("probably not int input")
 					}
-					routine.rest = rest
+					routine.Rest = rest
 					return nil
 				}).Description("Amount of rest in seconds"),
 			huh.NewInput().
@@ -59,7 +59,7 @@ func form1(tmp string) (Routine, error) {
 					if err != nil {
 						return errors.New("probably not int input")
 					}
-					routine.increase = increase
+					routine.Increase = increase
 					return nil
 				}).Description("Percent increase per round")),
 	).WithAccessible(accessible)
@@ -77,10 +77,10 @@ func form2() (bool, error) {
 	confirmation_form := huh.NewForm(
 		huh.NewGroup(
 			huh.NewConfirm().
-				Title(fmt.Sprintf("You will be doing %d push ups, with %d seconds rest and a %d increase per round", routine.reps, routine.rest, routine.increase)).
+				Title(fmt.Sprintf("You will be doing %d push ups, with %d seconds rest and a %d increase per round. Do you want to save for future use?", routine.Reps, routine.Rest, routine.Increase)).
 				Value(&confirmation).
-				Affirmative("Yes!").
-				Negative("No."),
+				Affirmative("Yes save!").
+				Negative("No thnx"),
 		),
 	).WithAccessible(accessible)
 

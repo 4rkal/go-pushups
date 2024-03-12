@@ -7,6 +7,7 @@ require (
 	github.com/charmbracelet/bubbletea v0.25.0
 	github.com/charmbracelet/huh v0.3.0
 	github.com/charmbracelet/lipgloss v0.9.1
+	github.com/lucasepe/codename v0.2.0
 	github.com/martinlindhe/notify v0.0.0-20181008203735-20632c9a275a
 )
 

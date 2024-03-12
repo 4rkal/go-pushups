@@ -62,7 +62,7 @@ func (m model) View() string {
 }
 
 func tickCmd() tea.Cmd {
-	rest := time.Duration(routine.rest/10) * time.Second
+	rest := time.Duration(routine.Rest/10) * time.Second
 	return tea.Tick(rest, func(t time.Time) tea.Msg {
 		return tickMsg(t)
 	})
