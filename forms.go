@@ -86,7 +86,27 @@ func form2() (bool, error) {
 
 	err2 := confirmation_form.Run()
 	if err2 != nil {
-		return confirmation, nil
+		return confirmation, err2
 	}
 	return confirmation, nil
+}
+
+func form3() (bool, error) {
+	var quit bool
+	accessible, _ := strconv.ParseBool(os.Getenv("ACCESSIBLE"))
+	confirmation_form := huh.NewForm(
+		huh.NewGroup(
+			huh.NewConfirm().
+				Title("Did you do them?").
+				Value(&quit).
+				Affirmative("Yes!").
+				Negative("Quit"),
+		),
+	).WithAccessible(accessible)
+
+	err2 := confirmation_form.Run()
+	if err2 != nil {
+		return quit, err2
+	}
+	return quit, nil
 }

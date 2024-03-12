@@ -79,6 +79,14 @@ func main() {
 		reps := do(routine.reps, routine.rest, routine.increase)
 		fmt.Printf("Round %d: Do %d pushups\n", round, reps)
 		alert(reps)
-		confirm()
+		quit, err := form3()
+		if err != nil {
+			fmt.Println("oh oh %s", err)
+			os.Exit(1)
+		}
+		if quit == false {
+			fmt.Printf("You did %v pushups\n", amount_done)
+			os.Exit(0)
+		}
 	}
 }
