@@ -96,6 +96,7 @@ func run2(routinee Routine) error {
 	}
 
 	for round := 1; ; round++ {
+		clearScreen()
 		if _, err := tea.NewProgram(m).Run(); err != nil {
 			fmt.Println("Oh no!", err)
 			os.Exit(1)

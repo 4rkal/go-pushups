@@ -1,5 +1,5 @@
 /*
-Copyright © 2024 NAME HERE <EMAIL ADDRESS>
+Copyright © 2024 4rkal <4rkal@horsefucker.org>
 */
 package cmd
 
