@@ -18,7 +18,7 @@ To install **go-pushups**, you need to have Go installed on your system. Then, y
 go install github.com/4rkal/go-pushups@latest
 ```
 
-Alternatively download it from the [release page](https://github.com/4rkal/go-pushups/releases) 
+**Alternatively** download it from the [release page](https://github.com/4rkal/go-pushups/releases) 
 
 ## Usage
 After installing or building the application, you can run it from the command line. Here's how to use it:
