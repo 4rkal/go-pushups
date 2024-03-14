@@ -1,4 +1,4 @@
-package main
+package cmd
 
 import (
 	"errors"
@@ -8,14 +8,6 @@ import (
 
 	"github.com/charmbracelet/huh"
 )
-
-type Routine struct {
-	Reps     int `json:"reps"`
-	Rest     int `json:"rest"`
-	Increase int `json:"increase"`
-}
-
-var routine Routine
 
 func form1(tmp string) (Routine, error) {
 	accessible, _ := strconv.ParseBool(os.Getenv("ACCESSIBLE"))

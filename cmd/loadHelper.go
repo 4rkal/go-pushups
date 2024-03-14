@@ -1,4 +1,4 @@
-package main
+package cmd
 
 import (
 	"encoding/json"
@@ -36,6 +36,28 @@ func (m model2) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case tea.KeyMsg:
 		if msg.String() == "ctrl+c" {
 			return m, tea.Quit
+		} else if msg.String() == "enter" {
+			// Get the selected item and check if successful
+			selectedItem := m.list.SelectedItem()
+
+			// Access the selected item data (assuming `item` struct)
+			selectedRoutine := selectedItem.(item)
+
+			// Load the routine details from the file based on the filename
+			routine, err := loadRoutine(selectedRoutine.title)
+			if err != nil {
+				fmt.Println("Error loading routine:", err)
+				return m, nil
+			}
+			run2(routine)
+
+			// Handle the loaded routine data (e.g., display details, start workout)
+			fmt.Printf("Selected routine: %s\n", selectedRoutine.title)
+			fmt.Printf("Amount: %d, Rest: %d seconds, Increase: %d%%\n", routine.Reps, routine.Rest, routine.Increase)
+
+			// You can implement further actions based on the routine here
+
+			return m, nil
 		}
 	case tea.WindowSizeMsg:
 		h, v := docStyle.GetFrameSize()
@@ -73,9 +95,16 @@ func load(rootDir string) (error, []string) {
 }
 
 func show_files() {
+	configDir, err := os.UserConfigDir()
+	if err != nil {
+		fmt.Printf("failed to get user config directory: %w", err)
+	}
+
+	appDir := "go-pushups"
+	appDirPath := filepath.Join(configDir, appDir)
 	var routine Routine
 	items := []list.Item{}
-	_, files := load(".")
+	_, files := load(appDirPath)
 	for i := range files {
 		jsonFile, err := os.Open(files[i])
 		if err != nil {
@@ -84,10 +113,10 @@ func show_files() {
 		}
 		byteValue, _ := ioutil.ReadAll(jsonFile)
 		json.Unmarshal(byteValue, &routine)
-		fmt.Println(files[i])
-		fmt.Println(routine)
+		// fmt.Println(files[i])
+		// fmt.Println(routine)
 		r := fmt.Sprintf("Amount: %d, Rest %d (sec), Increase %d %%", routine.Reps, routine.Rest, routine.Increase)
-		name := strings.TrimSuffix(files[i], ".json")
+		name := strings.TrimSuffix(strings.TrimPrefix(files[i], appDirPath+"/"), ".json")
 		newItem := item{title: name, desc: r}
 		items = append(items, newItem)
 	}
@@ -101,4 +130,37 @@ func show_files() {
 		fmt.Println("Error running program:", err)
 		os.Exit(1)
 	}
+}
+
+func loadRoutine(file string) (Routine, error) {
+	configDir, err := os.UserConfigDir()
+	if err != nil {
+		fmt.Printf("failed to get user config directory: %w", err)
+	}
+
+	appDir := "go-pushups"
+	var routine Routine
+
+	// Append .json extension to the file name
+	filePath := filepath.Join(configDir, appDir, file+".json")
+
+	// Open the JSON file
+	jsonFile, err := os.Open(filePath)
+	if err != nil {
+		return routine, fmt.Errorf("error opening file %s: %v", filePath, err)
+	}
+	defer jsonFile.Close()
+
+	// Read the file contents
+	byteValue, err := ioutil.ReadAll(jsonFile)
+	if err != nil {
+		return routine, fmt.Errorf("error reading file %s: %v", filePath, err)
+	}
+
+	// Unmarshal JSON into Routine struct
+	err = json.Unmarshal(byteValue, &routine)
+	if err != nil {
+		return routine, fmt.Errorf("error unmarshalling JSON from file %s: %v", filePath, err)
+	}
+	return routine, nil
 }
