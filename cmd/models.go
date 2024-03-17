@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"strings"
 	"time"
 
@@ -21,10 +20,6 @@ func (m model) Init() tea.Cmd {
 
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
-	case tea.KeyMsg:
-		fmt.Print("You did %d", amount_done)
-		return m, tea.Quit
-
 	case tea.WindowSizeMsg:
 		m.progress.Width = msg.Width - padding*2 - 4
 		if m.progress.Width > maxWidth {
@@ -57,8 +52,7 @@ func (m model) View() string {
 	pad := strings.Repeat(" ", padding)
 	return "\n" +
 		pad + "Resting...\n\n" +
-		pad + m.progress.View() + "\n\n" +
-		pad + helpStyle("Press any key to quit")
+		pad + m.progress.View() + "\n\n"
 }
 
 func tickCmd() tea.Cmd {

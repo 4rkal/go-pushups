@@ -27,8 +27,9 @@ var routine Routine
 var helpStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("#626262")).Render
 
 var amount_done int = 0
+var reps int
 
-func do(reps, rest, increase int) int {
+func do(reps, increase int) int {
 	if increase != 0 {
 		reps += reps * increase / 100
 	}
@@ -68,12 +69,14 @@ func run(should_save bool) error {
 		progress: progress.New(progress.WithDefaultGradient()),
 	}
 
+	reps = routine.Reps // Initialize reps outside the loop
+
 	for round := 1; ; round++ {
 		if _, err := tea.NewProgram(m).Run(); err != nil {
 			fmt.Println("Oh no!", err)
 			os.Exit(1)
 		}
-		reps := do(routine.Reps, routine.Rest, routine.Increase)
+		reps = do(reps, routine.Increase) // Update reps based on previous value
 		fmt.Printf("Round %d: Do %d pushups\n", round, reps)
 		alert(reps)
 		quit, err := form3()
@@ -95,13 +98,15 @@ func run2(routinee Routine) error {
 		progress: progress.New(progress.WithDefaultGradient()),
 	}
 
+	reps = routine.Reps // Initialize reps outside the loop
+
 	for round := 1; ; round++ {
 		clearScreen()
 		if _, err := tea.NewProgram(m).Run(); err != nil {
 			fmt.Println("Oh no!", err)
 			os.Exit(1)
 		}
-		reps := do(routine.Reps, routine.Rest, routine.Increase)
+		reps = do(reps, routine.Increase) // Update reps based on previous value
 		fmt.Printf("Round %d: Do %d pushups\n", round, reps)
 		alert(reps)
 		quit, err := form3()
