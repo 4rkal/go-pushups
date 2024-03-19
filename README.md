@@ -51,6 +51,11 @@ Replace [routine-name] with the name of the routine you want to load.
 go-pushups run
 ```
 
+- new: will create a new routine
+```bash
+go-pushups new
+```
+
 ## Contributing
 Contributions are welcome! If you have any suggestions, bug reports, or feature requests, please open an issue on or submit a pull request.
 
