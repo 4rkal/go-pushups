@@ -43,9 +43,9 @@ func alert(reps int) {
 }
 
 func run(should_save bool) error {
-	var tmp string
 	var confirmation bool
-	routine, err := routineForm(tmp)
+	greet()
+	routine, err := routineForm()
 	if err != nil {
 		fmt.Println("oh oh")
 		os.Exit(1)
@@ -125,4 +125,22 @@ func clearScreen() {
 	cmd := exec.Command("clear")
 	cmd.Stdout = os.Stdout
 	cmd.Run()
+}
+
+func newRoutine() error {
+	routine, err := routineForm()
+	if err != nil {
+		return err
+	}
+	save(routine)
+	run, err := shouldRun()
+	if err != nil {
+		return err
+	}
+	if run == true {
+		run2(routine)
+	} else {
+		os.Exit(0)
+	}
+	return nil
 }

@@ -9,12 +9,25 @@ import (
 	"github.com/charmbracelet/huh"
 )
 
-func routineForm(tmp string) (Routine, error) {
+func greet() error {
 	accessible, _ := strconv.ParseBool(os.Getenv("ACCESSIBLE"))
 	form := huh.NewForm(
 		huh.NewGroup(huh.NewNote().
 			Title("go-pushups").
 			Description("Welcome to _go-pushups_, your personal pushup companion and counter!")),
+	).WithAccessible(accessible)
+
+	err := form.Run()
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func routineForm() (Routine, error) {
+	var tmp string
+	accessible, _ := strconv.ParseBool(os.Getenv("ACCESSIBLE"))
+	form := huh.NewForm(
 		huh.NewGroup(
 			huh.NewInput().
 				Value(&tmp).
@@ -101,4 +114,24 @@ func confirmationForm() (bool, error) {
 		return quit, err2
 	}
 	return quit, nil
+}
+
+func shouldRun() (bool, error) {
+	var run bool
+	accessible, _ := strconv.ParseBool(os.Getenv("ACCESSIBLE"))
+	confirmation_form := huh.NewForm(
+		huh.NewGroup(
+			huh.NewConfirm().
+				Title("Routine Saved. Do you want to run it?").
+				Value(&run).
+				Affirmative("Yes run it!").
+				Negative("No, quit"),
+		),
+	).WithAccessible(accessible)
+
+	err := confirmation_form.Run()
+	if err != nil {
+		return run, err
+	}
+	return run, nil
 }
