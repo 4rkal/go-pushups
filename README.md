@@ -55,6 +55,14 @@ go-pushups run
 ```bash
 go-pushups new
 ```
+Alternatively
+
+Create a new routine with a custom (non random) name
+
+```bash
+go-pushups new [name]
+```
+Replase [name] with the actual name you want to use
 
 ## Contributing
 Contributions are welcome! If you have any suggestions, bug reports, or feature requests, please open an issue on or submit a pull request.
