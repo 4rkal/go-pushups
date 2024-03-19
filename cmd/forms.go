@@ -9,7 +9,7 @@ import (
 	"github.com/charmbracelet/huh"
 )
 
-func form1(tmp string) (Routine, error) {
+func routineForm(tmp string) (Routine, error) {
 	accessible, _ := strconv.ParseBool(os.Getenv("ACCESSIBLE"))
 	form := huh.NewForm(
 		huh.NewGroup(huh.NewNote().
@@ -63,7 +63,7 @@ func form1(tmp string) (Routine, error) {
 	return routine, nil
 }
 
-func form2() (bool, error) {
+func saveForm() (bool, error) {
 	var confirmation bool
 	accessible, _ := strconv.ParseBool(os.Getenv("ACCESSIBLE"))
 	confirmation_form := huh.NewForm(
@@ -83,7 +83,7 @@ func form2() (bool, error) {
 	return confirmation, nil
 }
 
-func form3() (bool, error) {
+func confirmationForm() (bool, error) {
 	var quit bool
 	accessible, _ := strconv.ParseBool(os.Getenv("ACCESSIBLE"))
 	confirmation_form := huh.NewForm(

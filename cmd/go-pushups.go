@@ -45,13 +45,13 @@ func alert(reps int) {
 func run(should_save bool) error {
 	var tmp string
 	var confirmation bool
-	routine, err := form1(tmp)
+	routine, err := routineForm(tmp)
 	if err != nil {
 		fmt.Println("oh oh")
 		os.Exit(1)
 	}
 
-	confirmation, err2 := form2()
+	confirmation, err2 := saveForm()
 	if err2 != nil {
 		fmt.Println("oh oh")
 		os.Exit(1)
@@ -69,17 +69,17 @@ func run(should_save bool) error {
 		progress: progress.New(progress.WithDefaultGradient()),
 	}
 
-	reps = routine.Reps // Initialize reps outside the loop
+	reps = routine.Reps
 
 	for round := 1; ; round++ {
 		if _, err := tea.NewProgram(m).Run(); err != nil {
 			fmt.Println("Oh no!", err)
 			os.Exit(1)
 		}
-		reps = do(reps, routine.Increase) // Update reps based on previous value
+		reps = do(reps, routine.Increase)
 		fmt.Printf("Round %d: Do %d pushups\n", round, reps)
 		alert(reps)
-		quit, err := form3()
+		quit, err := confirmationForm()
 		if err != nil {
 			fmt.Println("oh oh %s", err)
 			os.Exit(1)
@@ -98,7 +98,7 @@ func run2(routinee Routine) error {
 		progress: progress.New(progress.WithDefaultGradient()),
 	}
 
-	reps = routine.Reps // Initialize reps outside the loop
+	reps = routine.Reps
 
 	for round := 1; ; round++ {
 		clearScreen()
@@ -106,10 +106,10 @@ func run2(routinee Routine) error {
 			fmt.Println("Oh no!", err)
 			os.Exit(1)
 		}
-		reps = do(reps, routine.Increase) // Update reps based on previous value
+		reps = do(reps, routine.Increase)
 		fmt.Printf("Round %d: Do %d pushups\n", round, reps)
 		alert(reps)
-		quit, err := form3()
+		quit, err := confirmationForm()
 		if err != nil {
 			fmt.Println("oh oh %s", err)
 			os.Exit(1)
