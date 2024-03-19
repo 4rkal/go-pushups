@@ -62,7 +62,7 @@ func run(should_save bool) error {
 	}
 
 	if confirmation == true && should_save == true {
-		save(routine)
+		save(routine, "")
 	}
 
 	m := model{
@@ -127,12 +127,12 @@ func clearScreen() {
 	cmd.Run()
 }
 
-func newRoutine() error {
+func newRoutine(name string) error {
 	routine, err := routineForm()
 	if err != nil {
 		return err
 	}
-	save(routine)
+	save(routine, name)
 	run, err := shouldRun()
 	if err != nil {
 		return err

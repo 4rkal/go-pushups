@@ -9,7 +9,7 @@ import (
 	"github.com/lucasepe/codename"
 )
 
-func save(routine Routine) error {
+func save(routine Routine, name string) error {
 	rng, err := codename.DefaultRNG()
 	if err != nil {
 		return fmt.Errorf("failed to get default RNG: %w", err)
@@ -27,8 +27,10 @@ func save(routine Routine) error {
 	if err := os.MkdirAll(appDirPath, 0755); err != nil {
 		return fmt.Errorf("error creating app directory: %w", err)
 	}
-
-	filename := fmt.Sprintf("%s.json", codename.Generate(rng, 0))
+	if name == "" {
+		name = codename.Generate(rng, 0)
+	}
+	filename := fmt.Sprintf("%s.json", name)
 	filePath := filepath.Join(appDirPath, filename)
 
 	jsonData, err := json.MarshalIndent(routine, "", "    ")

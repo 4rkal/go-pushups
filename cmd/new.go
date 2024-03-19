@@ -1,5 +1,5 @@
 /*
-Copyright © 2024 NAME HERE <EMAIL ADDRESS>
+Copyright © 2024 4rkal <4rkal@horsefucker.org>
 */
 package cmd
 
@@ -17,11 +17,20 @@ var newCmd = &cobra.Command{
 	Long: `Will create a new routine
 	Example usage:
 	go-pushups new`,
+	Args: cobra.RangeArgs(0, 1),
 	Run: func(cmd *cobra.Command, args []string) {
-		err := newRoutine()
-		if err != nil {
-			fmt.Println("oh oh", err)
-			os.Exit(1)
+		if len(args) == 0 {
+			err := newRoutine("")
+			if err != nil {
+				fmt.Println("oh oh", err)
+				os.Exit(1)
+			}
+		} else {
+			err := newRoutine(args[0])
+			if err != nil {
+				fmt.Println("oh oh", err)
+				os.Exit(1)
+			}
 		}
 	},
 }
